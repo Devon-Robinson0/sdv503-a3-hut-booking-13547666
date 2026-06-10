@@ -1,0 +1,24 @@
+{
+  "name": "sdv503-a3-hut-booking-13547666",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Devon-Robinson0/sdv503-a3-hut-booking-13547666.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Devon-Robinson0/sdv503-a3-hut-booking-13547666/issues"
+  },
+  "homepage": "https://github.com/Devon-Robinson0/sdv503-a3-hut-booking-13547666#readme",
+  "dependencies": {
+    "typescript": "^6.0.3"
+  }
+}
