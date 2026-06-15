@@ -6,7 +6,9 @@ import { section,
     dimmedText, 
     blueText, 
     magentaText, 
-    errorText } from './logger.js';
+    errorText,
+    displayMagPair } from './logger.js';
+import { cancelBooking } from './cancel-booking.js';
 
 export type Hut = {
     hutName: string,
@@ -27,10 +29,16 @@ export type Booking = {
 let bookings: Booking[] = [];
 
 const createNewBookingCommands = [
-        "create",
-        "createnewbooking",
-        "create new booking"
-    ];
+    "create",
+    "createnewbooking",
+    "create new booking"
+];
+
+const cancelBookingCommands = [
+    "cancel",
+    "cancelbooking",
+    "cancel booking"
+]
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -51,11 +59,19 @@ export async function loadBookings(): Promise<Booking[]> {
     return JSON.parse(raw);
 }
 
-async function enterCommand() {
+export async function updateBookings(bookings: Booking[]) {
+    await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
+}
+
+export async function enterCommand() {
     const command: string = await ask(blueText("Enter a command ('help' to see all commands): "));
     
     if (createNewBookingCommands.includes(command.toLowerCase().trim())) {
         promptNewBooking();
+    } else if (cancelBookingCommands.includes(command.toLowerCase().trim())) {
+        cancelBooking();
+    } else {
+        enterCommand();
     }
    
 }
@@ -70,6 +86,20 @@ export async function saveNewBooking(booking: Booking) {
     currentBookings.push(booking);
 
     await fs.writeFile('bookings.json', JSON.stringify(currentBookings, null, 2));
+}
+
+export async function displayBooking(booking: Booking) {
+    let bookingText: string = magentaText('\n--- Booking ---');
+    const memberText = booking.isMember ? 'Yes' : "No";
+    bookingText += displayMagPair("\nBooking ID: ", booking.bookingId);
+    bookingText += displayMagPair("\nTramper Name: ", booking.tramperName);
+    bookingText += displayMagPair("\nHut: ", booking.hut);
+    bookingText += displayMagPair("\nArrival Date: ", String(booking.arrivalDate));
+    bookingText += displayMagPair("\nNights: ", String(booking.nights));
+    bookingText += displayMagPair("\nParty Size: ", String(booking.partySize));
+    bookingText += displayMagPair("\nMember: ", memberText);
+
+    console.log(bookingText += magentaText('\n---------------'));
 }
 
 export function closeRl() {

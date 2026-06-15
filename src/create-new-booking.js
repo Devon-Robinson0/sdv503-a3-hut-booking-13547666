@@ -1,4 +1,4 @@
-import { ask, closeRl, loadBookings, loadHuts, saveNewBooking } from './commands.js';
+import { ask, closeRl, displayBooking, enterCommand, loadBookings, loadHuts, saveNewBooking } from './commands.js';
 import { section, topic, dimmedText, blueText, magentaText, errorText, displayMagPair } from './logger.js';
 let currentHut;
 const validYesInput = ["yes", "y", "true", "t"];
@@ -31,18 +31,9 @@ export async function createNewBooking() {
         partySize,
         isMember
     };
-    let bookingText = magentaText('\n--- Booking ---');
-    const memberText = isMember ? 'Yes' : "No";
-    bookingText += displayMagPair("\nBooking ID: ", bookingId);
-    bookingText += displayMagPair("\nTramper Name: ", tramperName);
-    bookingText += displayMagPair("\nHut: ", hut);
-    bookingText += displayMagPair("\nArrival Date: ", String(arrivalDate));
-    bookingText += displayMagPair("\nNights: ", String(nights));
-    bookingText += displayMagPair("\nParty Size: ", String(partySize));
-    bookingText += displayMagPair("\nMember: ", memberText);
-    console.log(bookingText += magentaText('\n---------------'));
+    displayBooking(booking);
     const confirmed = await confirmBooking(booking);
-    closeRl();
+    enterCommand();
 }
 async function getTramperName() {
     let tramperName = '';
@@ -60,7 +51,7 @@ async function getTramperName() {
         else {
             console.log(err);
         }
-        await getTramperName();
+        tramperName = await getTramperName();
     }
     return tramperName;
 }
@@ -90,7 +81,7 @@ async function getHut() {
         else {
             console.log(err);
         }
-        await getHut();
+        hut = await getHut();
     }
     return hut;
 }
@@ -127,7 +118,7 @@ async function getPartySize(arrivalDate, nightsOfStay) {
         else {
             console.log(err);
         }
-        await getPartySize(arrivalDate, nightsOfStay);
+        partySize = await getPartySize(arrivalDate, nightsOfStay);
     }
     return partySize;
 }
@@ -174,7 +165,7 @@ async function getArrivalDate() {
         else {
             console.log(err);
         }
-        await getArrivalDate();
+        arrivalDate = await getArrivalDate();
     }
     return arrivalDate;
 }
@@ -207,23 +198,26 @@ async function getNightsOfStay() {
         else {
             console.log(err);
         }
-        await getNightsOfStay();
+        nightsOfStay = await getNightsOfStay();
     }
     return nightsOfStay;
 }
 async function getIsMember() {
+    let isMember = false;
     try {
         const isMemberInput = await ask(blueText("Is tramper member (y/n): "));
         if (isMemberInput.trim() === '') {
             throw new Error("Must not leave empty");
         }
         if (validYesInput.includes(isMemberInput.trim().toLowerCase())) {
-            return true;
+            isMember = true;
         }
         else if (validNoInput.includes(isMemberInput.trim().toLowerCase())) {
-            return false;
+            isMember = false;
         }
-        throw new Error("Must be yes or no");
+        else {
+            throw new Error("Must be yes or no");
+        }
     }
     catch (err) {
         if (err instanceof Error) {
@@ -232,8 +226,9 @@ async function getIsMember() {
         else {
             console.log(err);
         }
-        await getIsMember();
+        isMember = await getIsMember();
     }
+    return isMember;
 }
 async function confirmBooking(booking) {
     const confirmed = await ask(blueText("Confirm Booking (y/n): "));
@@ -241,11 +236,21 @@ async function confirmBooking(booking) {
         saveNewBooking(booking);
     }
     else if (validNoInput.includes(confirmed.trim().toLowerCase())) {
-        console.log(dimmedText("~Booking not saved~"));
+        console.log(dimmedText("\n~Booking not saved~\n"));
     }
     else {
         console.log(errorText("Must enter (y/n): "));
         await confirmBooking(booking);
     }
 }
+// const exitCommands = [
+//     "exit",
+//     "cancel",
+//     "quit"
+// ];
+// function shouldExit(text: string) {
+//     if (exitCommands.includes(text.toLowerCase().trim())){
+//         enterCommand();
+//     }
+// }
 //# sourceMappingURL=create-new-booking.js.map

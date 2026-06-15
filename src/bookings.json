@@ -1,14 +1,5 @@
 [
   {
-    "bookingId": "id_1",
-    "tramperName": "sam",
-    "hut": "test1",
-    "arrivalDate": "2026-06-14T10:00:00.000Z",
-    "nights": 3,
-    "partySize": 2,
-    "isMember": false
-  },
-  {
     "bookingId": "id_2",
     "tramperName": "matt",
     "hut": "test2",
@@ -33,6 +24,24 @@
     "arrivalDate": "2026-08-16T12:00:00.000Z",
     "nights": 10,
     "partySize": 12,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_5",
+    "tramperName": "Naxmin",
+    "hut": "test2",
+    "arrivalDate": "2026-06-15T12:00:00.000Z",
+    "nights": 1,
+    "partySize": 3,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_6",
+    "tramperName": "Doug",
+    "hut": "test2",
+    "arrivalDate": "2026-07-19T12:00:00.000Z",
+    "nights": 4,
+    "partySize": 2,
     "isMember": true
   }
 ]
