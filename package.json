@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Devon-Robinson0/sdv503-a3-hut-booking-13547666#readme",
   "dependencies": {
+    "chalk": "^5.6.2",
     "typescript": "^6.0.3"
   },
   "devDependencies": {

@@ -17,4 +17,7 @@ export function blueText(text) {
 export function errorText(text) {
     return chalk.bold.redBright(text);
 }
+export function displayMagPair(text, prop) {
+    return magentaText(text) + dimmedText(prop);
+}
 //# sourceMappingURL=logger.js.map

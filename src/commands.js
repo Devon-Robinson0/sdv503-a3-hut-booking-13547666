@@ -1,6 +1,8 @@
 import readline from 'node:readline';
+import fs from 'fs/promises';
 import { createNewBooking } from './create-new-booking.js';
 import { section, topic, dimmedText, blueText, magentaText, errorText } from './logger.js';
+let bookings = [];
 const createNewBookingCommands = [
     "create",
     "createnewbooking",
@@ -13,6 +15,14 @@ const rl = readline.createInterface({
 export function ask(q) {
     return new Promise(resolve => rl.question(q, resolve));
 }
+export async function loadHuts() {
+    const raw = await fs.readFile("huts.json", "utf-8");
+    return JSON.parse(raw);
+}
+export async function loadBookings() {
+    const raw = await fs.readFile("bookings.json", "utf-8");
+    return JSON.parse(raw);
+}
 async function enterCommand() {
     const command = await ask(blueText("Enter a command ('help' to see all commands): "));
     if (createNewBookingCommands.includes(command.toLowerCase().trim())) {
@@ -20,13 +30,12 @@ async function enterCommand() {
     }
 }
 async function promptNewBooking() {
-    // const tramperName: string = await ask(blueText("Enter tramper name: "));
-    // const hut: string = await ask(blueText("Enter hut: "));
-    // const partySize: string = await ask(blueText("Enter party size: "));
-    // const arrivalDate: string = await ask(blueText("Enter arrival date: "));
-    // const nightsOfStay: string = await ask(blueText("Enter nights of stay: "));
-    // const isMember: string = await ask(blueText("Are you a member? (y/n): "));
     createNewBooking();
+}
+export async function saveNewBooking(booking) {
+    const currentBookings = await loadBookings();
+    currentBookings.push(booking);
+    await fs.writeFile('bookings.json', JSON.stringify(currentBookings, null, 2));
 }
 export function closeRl() {
     rl.close();

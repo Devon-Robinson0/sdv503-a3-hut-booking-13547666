@@ -23,3 +23,7 @@ export function blueText(text: string): string {
 export function errorText(text: string): string {
     return chalk.bold.redBright(text);
 }
+
+export function displayMagPair(text: string, prop: string) {
+    return magentaText(text) + dimmedText(prop);
+}

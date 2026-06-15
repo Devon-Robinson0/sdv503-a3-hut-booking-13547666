@@ -1,0 +1,12 @@
+[
+  {
+    "hutName": "test1",
+    "track": "Great Walk",
+    "capacity": 14
+  },
+  {
+    "hutName": "test2",
+    "track": "Great Walk",
+    "capacity": 12
+  }
+]

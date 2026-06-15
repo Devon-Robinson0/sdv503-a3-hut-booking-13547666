@@ -1,4 +1,5 @@
 import readline from 'node:readline';
+import fs from 'fs/promises';
 import { createNewBooking } from './create-new-booking.js';
 import { section, 
     topic, 
@@ -6,6 +7,24 @@ import { section,
     blueText, 
     magentaText, 
     errorText } from './logger.js';
+
+export type Hut = {
+    hutName: string,
+    track: string,
+    capacity: number
+}
+
+export type Booking = {
+    bookingId: string,
+    tramperName: string,
+    hut: string,
+    arrivalDate: Date,
+    nights: number,
+    partySize: number,
+    isMember: boolean
+}
+
+let bookings: Booking[] = [];
 
 const createNewBookingCommands = [
         "create",
@@ -22,6 +41,16 @@ export function ask(q: string): Promise<string> {
     return new Promise(resolve => rl.question(q, resolve));
 }
 
+export async function loadHuts(): Promise<Hut[]> {
+    const raw = await fs.readFile("huts.json", "utf-8");
+    return JSON.parse(raw);
+}
+
+export async function loadBookings(): Promise<Booking[]> {
+    const raw = await fs.readFile("bookings.json", "utf-8");
+    return JSON.parse(raw);
+}
+
 async function enterCommand() {
     const command: string = await ask(blueText("Enter a command ('help' to see all commands): "));
     
@@ -32,14 +61,15 @@ async function enterCommand() {
 }
 
 async function promptNewBooking() {
-    // const tramperName: string = await ask(blueText("Enter tramper name: "));
-    // const hut: string = await ask(blueText("Enter hut: "));
-    // const partySize: string = await ask(blueText("Enter party size: "));
-    // const arrivalDate: string = await ask(blueText("Enter arrival date: "));
-    // const nightsOfStay: string = await ask(blueText("Enter nights of stay: "));
-    // const isMember: string = await ask(blueText("Are you a member? (y/n): "));
-
     createNewBooking();
+}
+
+export async function saveNewBooking(booking: Booking) {
+    const currentBookings = await loadBookings();
+
+    currentBookings.push(booking);
+
+    await fs.writeFile('bookings.json', JSON.stringify(currentBookings, null, 2));
 }
 
 export function closeRl() {
