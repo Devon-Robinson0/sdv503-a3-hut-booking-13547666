@@ -10,6 +10,7 @@ import { section,
     displayMagPair } from './logger.js';
 import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
+import { searchBooking } from './search-booking.js';
 
 export type Hut = {
     hutName: string,
@@ -48,7 +49,14 @@ const cancelBookingCommands = [
 
 const viewHutBookingCommands = [
     "viewhutbooking",
-    "view hut booking"
+    "view hut booking",
+    "view"
+];
+
+const searchBookingCommands = [
+    "searchbooking",
+    "search booking",
+    "search"
 ];
 
 const rl = readline.createInterface({
@@ -85,6 +93,8 @@ export async function enterCommand() {
         cancelBooking();
     } else if (viewHutBookingCommands.includes(command)) {
         viewHutBookings();
+    } else if (searchBookingCommands.includes(command)) {
+        searchBooking();
     } else if (exitCommands.includes(command)) {
         rl.close();
     } else {
