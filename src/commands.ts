@@ -9,6 +9,7 @@ import { section,
     errorText,
     displayMagPair } from './logger.js';
 import { cancelBooking } from './cancel-booking.js';
+import { viewHutBookings } from './view-hut-bookings.js';
 
 export type Hut = {
     hutName: string,
@@ -28,6 +29,11 @@ export type Booking = {
 
 let bookings: Booking[] = [];
 
+const exitCommands = [
+    "exit",
+    "quit"
+]
+
 const createNewBookingCommands = [
     "create",
     "createnewbooking",
@@ -38,7 +44,12 @@ const cancelBookingCommands = [
     "cancel",
     "cancelbooking",
     "cancel booking"
-]
+];
+
+const viewHutBookingCommands = [
+    "viewhutbooking",
+    "view hut booking"
+];
 
 const rl = readline.createInterface({
     input: process.stdin,
@@ -64,12 +75,18 @@ export async function updateBookings(bookings: Booking[]) {
 }
 
 export async function enterCommand() {
-    const command: string = await ask(blueText("Enter a command ('help' to see all commands): "));
+    const command: string = (await ask(blueText("Enter a command ('help' to see all commands): ")))
+        .trim()
+        .toLowerCase();
     
-    if (createNewBookingCommands.includes(command.toLowerCase().trim())) {
+    if (createNewBookingCommands.includes(command)) {
         promptNewBooking();
-    } else if (cancelBookingCommands.includes(command.toLowerCase().trim())) {
+    } else if (cancelBookingCommands.includes(command)) {
         cancelBooking();
+    } else if (viewHutBookingCommands.includes(command)) {
+        viewHutBookings();
+    } else if (exitCommands.includes(command)) {
+        rl.close();
     } else {
         enterCommand();
     }

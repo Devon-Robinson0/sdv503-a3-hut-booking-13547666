@@ -94,9 +94,13 @@ async function getPartySize(arrivalDate, nightsOfStay) {
         if (Number.isNaN(partySize)) {
             throw new Error("Party Size is Not a Number");
         }
+        else if (Number(partySize) === 0) {
+            throw new Error("Number must be greater than zero");
+        }
         const bookings = await loadBookings();
         let capacityTaken = 0;
-        for (const booking of bookings) {
+        const matchingHutBookings = bookings.filter(b => b.hut === currentHut.hutName);
+        for (const booking of matchingHutBookings) {
             const startB = new Date(booking.arrivalDate);
             const endB = new Date(startB);
             endB.setDate(endB.getDate() + booking.nights);
@@ -125,8 +129,9 @@ async function getPartySize(arrivalDate, nightsOfStay) {
 async function getArrivalDate() {
     let arrivalDate = new Date();
     try {
-        const arrivalDateInput = await ask(blueText("Enter Arrival Date (dd-mm-yyyy): "));
-        if (arrivalDateInput.trim() === "") {
+        const arrivalDateInput = (await ask(blueText("Enter Arrival Date (dd-mm-yyyy): ")))
+            .trim();
+        if (arrivalDateInput === "") {
             throw new Error("Date must not be empty");
         }
         const segments = arrivalDateInput.split('-');

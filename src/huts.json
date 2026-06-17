@@ -8,5 +8,10 @@
     "hutName": "test2",
     "track": "Great Walk",
     "capacity": 12
+  },
+  {
+    "hutName": "test3",
+    "track": "Great Walk",
+    "capacity": 12
   }
 ]

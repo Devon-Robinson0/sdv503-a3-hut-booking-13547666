@@ -4,6 +4,10 @@ let bookings = [];
 let booking;
 const validYesInput = ["yes", "y", "true", "t"];
 const validNoInput = ["no", "n", "false", "f"];
+const exitCommands = [
+    "exit",
+    "quit"
+];
 export async function cancelBooking() {
     const booking = await getBookingById();
     displayBooking(booking);
@@ -45,8 +49,10 @@ async function getConfirmation() {
 }
 async function getBookingById() {
     try {
-        const bookingIdInput = await ask(blueText("Enter Booking ID: "));
-        if (bookingIdInput.trim() === '') {
+        const bookingIdInput = (await ask(blueText("Enter Booking ID: ")))
+            .trim()
+            .toLowerCase();
+        if (bookingIdInput === '') {
             throw new Error("ID must not be blank");
         }
         bookings = await loadBookings();
