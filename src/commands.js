@@ -45,6 +45,10 @@ export async function loadBookings() {
     const raw = await fs.readFile("bookings.json", "utf-8");
     return JSON.parse(raw);
 }
+export async function loadSeason() {
+    const raw = await fs.readFile("season.json", "utf-8");
+    return JSON.parse(raw);
+}
 export async function updateBookings(bookings) {
     await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
 }

@@ -12,9 +12,16 @@ export type Booking = {
     partySize: number;
     isMember: boolean;
 };
+export type Season = {
+    startDay: number;
+    startMonth: number;
+    endDay: number;
+    endMonth: number;
+};
 export declare function ask(q: string): Promise<string>;
 export declare function loadHuts(): Promise<Hut[]>;
 export declare function loadBookings(): Promise<Booking[]>;
+export declare function loadSeason(): Promise<Season>;
 export declare function updateBookings(bookings: Booking[]): Promise<void>;
 export declare function enterCommand(): Promise<void>;
 export declare function saveNewBooking(booking: Booking): Promise<void>;

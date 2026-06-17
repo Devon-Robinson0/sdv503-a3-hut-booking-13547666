@@ -1,13 +1,14 @@
-import { ask, closeRl, displayBooking, enterCommand, loadBookings, loadHuts, saveNewBooking } from './commands.js';
+import { ask, closeRl, displayBooking, enterCommand, loadBookings, loadHuts, loadSeason, saveNewBooking } from './commands.js';
 import { section, topic, dimmedText, blueText, magentaText, errorText, displayMagPair } from './logger.js';
 let currentHut;
+let season;
 const validYesInput = ["yes", "y", "true", "t"];
 const validNoInput = ["no", "n", "false", "f"];
 export async function createNewBooking() {
     const tramperName = await getTramperName();
     const hut = await getHut();
     const arrivalDate = await getArrivalDate();
-    const nights = await getNightsOfStay();
+    const nights = await getNightsOfStay(arrivalDate);
     const partySize = await getPartySize(arrivalDate, nights);
     const isMember = Boolean(await getIsMember());
     const bookings = await loadBookings();
@@ -161,7 +162,14 @@ async function getArrivalDate() {
         else if (day < currentDay && month === currentMonth && year === currentYear) {
             throw new Error("Day must be in the future");
         }
-        arrivalDate = new Date(`${year}-${month}-${day}`);
+        season = await loadSeason();
+        const seasonStart = formatDate(new Date((new Date()).getFullYear(), season.startMonth - 1, season.startDay));
+        const seasonEnd = formatDate(new Date((new Date()).getFullYear(), season.endMonth - 1, season.endDay));
+        arrivalDate = new Date(year, month - 1, day);
+        if (!(await checkDatesInSeason(arrivalDate))) {
+            throw new Error(`Date must be in season range (${seasonStart} -> ${seasonEnd})`);
+        }
+        console.log("within season");
     }
     catch (err) {
         if (err instanceof Error) {
@@ -174,6 +182,12 @@ async function getArrivalDate() {
     }
     return arrivalDate;
 }
+function formatDate(date) {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+}
 const getDaysInMonth = (year, month) => {
     const days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     if (month === 2 && isLeapYear(year)) {
@@ -184,7 +198,7 @@ const getDaysInMonth = (year, month) => {
 const isLeapYear = (year) => {
     return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
 };
-async function getNightsOfStay() {
+async function getNightsOfStay(arrivalDate) {
     let nightsOfStay = 0;
     try {
         const nightsOfStayInput = await ask(blueText("Enter Nights of Stay: "));
@@ -195,6 +209,13 @@ async function getNightsOfStay() {
         if (nightsOfStay === 0 || nightsOfStay > 30) {
             throw new Error("Nights of stay must be between 1-30");
         }
+        const endDate = new Date(arrivalDate);
+        endDate.setDate(endDate.getDate() + nightsOfStay);
+        const seasonEnd = new Date((new Date()).getFullYear(), season.endMonth - 1, season.endDay);
+        const nightsLeft = getNights(arrivalDate, seasonEnd);
+        if (!(await checkDatesInSeason(arrivalDate, endDate))) {
+            throw new Error(`Date range must be within season (max nights: ${nightsLeft})`);
+        }
     }
     catch (err) {
         if (err instanceof Error) {
@@ -203,9 +224,14 @@ async function getNightsOfStay() {
         else {
             console.log(err);
         }
-        nightsOfStay = await getNightsOfStay();
+        nightsOfStay = await getNightsOfStay(arrivalDate);
     }
     return nightsOfStay;
+}
+function getNights(start, end) {
+    const msPerDay = 1000 * 60 * 60 * 24;
+    const diffMs = end.getTime() - start.getTime();
+    return Math.round(diffMs / msPerDay);
 }
 async function getIsMember() {
     let isMember = false;
@@ -246,6 +272,27 @@ async function confirmBooking(booking) {
     else {
         console.log(errorText("Must enter (y/n): "));
         await confirmBooking(booking);
+    }
+}
+async function checkDatesInSeason(start, end) {
+    season = await loadSeason();
+    if (end === undefined) {
+        end = new Date(start);
+    }
+    const year = start.getFullYear();
+    const seasonStartDate = new Date(year, season.startMonth - 1, season.startDay);
+    const seasonEndDate = new Date(year, season.endMonth - 1, season.endDay);
+    console.log(seasonEndDate);
+    console.log(start);
+    if (start.getTime() === seasonEndDate.getTime()) {
+        return false;
+    }
+    // startA >= startB && endA <= endB
+    if (start >= seasonStartDate && end <= seasonEndDate) {
+        return true;
+    }
+    else {
+        return false;
     }
 }
 // const exitCommands = [

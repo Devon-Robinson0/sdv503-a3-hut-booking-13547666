@@ -28,6 +28,13 @@ export type Booking = {
     isMember: boolean
 }
 
+export type Season = {
+    startDay: number,
+    startMonth: number,
+    endDay: number,
+    endMonth: number
+};
+
 let bookings: Booking[] = [];
 
 const exitCommands = [
@@ -75,6 +82,11 @@ export async function loadHuts(): Promise<Hut[]> {
 
 export async function loadBookings(): Promise<Booking[]> {
     const raw = await fs.readFile("bookings.json", "utf-8");
+    return JSON.parse(raw);
+}
+
+export async function loadSeason(): Promise<Season> {
+    const raw = await fs.readFile("season.json", "utf-8");
     return JSON.parse(raw);
 }
 
