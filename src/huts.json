@@ -1,17 +1,52 @@
 [
   {
-    "hutName": "test1",
-    "track": "Great Walk",
-    "capacity": 14
+    "hutName": "anchorage",
+    "track": "Able Tasman Coast Track",
+    "capacity": 34
   },
   {
-    "hutName": "test2",
-    "track": "Great Walk",
-    "capacity": 12
+    "hutName": "bark bay",
+    "track": "Able Tasman Coast Track",
+    "capacity": 34
   },
   {
-    "hutName": "test3",
-    "track": "Great Walk",
-    "capacity": 12
+    "hutName": "awaroa",
+    "track": "Able Tasman Coast Track",
+    "capacity": 26
+  },
+  {
+    "hutName": "whariwharangi",
+    "track": "Able Tasman Coast Track",
+    "capacity": 20
+  },
+  {
+    "hutName": "clinton",
+    "track": "Milford Track",
+    "capacity": 40
+  },
+  {
+    "hutName": "mintaro",
+    "track": "Milford Track",
+    "capacity": 40
+  },
+  {
+    "hutName": "dumpling",
+    "track": "Milford Track",
+    "capacity": 40
+  },
+  {
+    "hutName": "ces clark",
+    "track": "Paparoa Track",
+    "capacity": 16
+  },
+  {
+    "hutName": "moonlight tops",
+    "track": "Paparoa Track",
+    "capacity": 20
+  },
+  {
+    "hutName": "pororari",
+    "track": "Paparoa Track",
+    "capacity": 20
   }
 ]

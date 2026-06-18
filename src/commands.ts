@@ -12,6 +12,7 @@ import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
 import { configSeason } from './config-season.js';
+import { summary } from './summary.js';
 
 export type Hut = {
     hutName: string,
@@ -72,13 +73,18 @@ const configSeasonCommands: string[] = [
     "season"
 ];
 
+const summaryCommands: string[] = [
+    "summary"
+];
+
 const helpCommands = [
     exitCommands[0],
     createNewBookingCommands[0],
     cancelBookingCommands[0],
     viewHutBookingCommands[0],
     searchBookingCommands[0],
-    configSeasonCommands[0]
+    configSeasonCommands[0],
+    summaryCommands[0]
 ];
 
 const rl = readline.createInterface({
@@ -113,6 +119,10 @@ export async function updateBookings(bookings: Booking[]) {
     await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
 }
 
+export async function updateSummary(summary: string) {
+    await fs.writeFile("summary.md", summary);
+}
+
 export async function enterCommand() {
     const command: string = (await ask(blueText("Enter a command ('help' to see all commands): ")))
         .trim()
@@ -128,7 +138,10 @@ export async function enterCommand() {
         searchBooking();
     } else if (configSeasonCommands.includes(command)) {
         configSeason();
+    } else if (summaryCommands.includes(command)) {
+        summary();
     } else if (exitCommands.includes(command)) {
+        console.log(dimmedText("\n~Exited~\n"));
         rl.close();
     } else if (command === 'help') {
         for (const helpCommand of helpCommands) {

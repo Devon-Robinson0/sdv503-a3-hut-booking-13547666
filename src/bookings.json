@@ -16,5 +16,14 @@
     "nights": 1,
     "partySize": 4,
     "isMember": false
+  },
+  {
+    "bookingId": "id_3",
+    "tramperName": "David",
+    "hut": "test3",
+    "arrivalDate": "2026-06-17T12:00:00.000Z",
+    "nights": 10,
+    "partySize": 5,
+    "isMember": true
   }
 ]

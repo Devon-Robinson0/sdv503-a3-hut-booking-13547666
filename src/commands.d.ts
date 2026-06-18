@@ -22,6 +22,7 @@ export declare function loadBookings(): Promise<Booking[]>;
 export declare function loadSeason(): Promise<Season>;
 export declare function updateSeason(season: Season): Promise<void>;
 export declare function updateBookings(bookings: Booking[]): Promise<void>;
+export declare function updateSummary(summary: string): Promise<void>;
 export declare function enterCommand(): Promise<void>;
 export declare function saveNewBooking(booking: Booking): Promise<void>;
 export declare function displayBooking(booking: Booking): Promise<void>;

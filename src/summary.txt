@@ -1,0 +1,27 @@
+
+==:OCCUPANCY SUMMARY REPORT:==
+===============================
+Date: 18-Jun-2026
+-------------------------------
+Current Season Range: Jan -> Dec
+test1:
+      === Booking ===
+      id_1
+      Tramper Name: Devon
+      Hut: test1
+      Arrival Date: 19-Jun-2026
+      Nights of Stay: 1
+      Party Size: 10
+      Is Member: yes
+      ================
+      === Booking ===
+      id_2
+      Tramper Name: Hikaru
+      Hut: test1
+      Arrival Date: 19-Jun-2026
+      Nights of Stay: 1
+      Party Size: 4
+      Is Member: no
+      ================
+test2:
+test3:
