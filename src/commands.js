@@ -37,6 +37,14 @@ const configSeasonCommands = [
     "config",
     "season"
 ];
+const helpCommands = [
+    exitCommands[0],
+    createNewBookingCommands[0],
+    cancelBookingCommands[0],
+    viewHutBookingCommands[0],
+    searchBookingCommands[0],
+    configSeasonCommands[0]
+];
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -83,6 +91,12 @@ export async function enterCommand() {
     }
     else if (exitCommands.includes(command)) {
         rl.close();
+    }
+    else if (command === 'help') {
+        for (const helpCommand of helpCommands) {
+            console.log(dimmedText(String(helpCommand)));
+        }
+        enterCommand();
     }
     else {
         enterCommand();

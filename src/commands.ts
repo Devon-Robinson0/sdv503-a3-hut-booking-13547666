@@ -36,40 +36,49 @@ export type Season = {
 
 let bookings: Booking[] = [];
 
-const exitCommands = [
+const exitCommands: string[] = [
     "exit",
     "quit"
 ]
 
-const createNewBookingCommands = [
+const createNewBookingCommands: string[] = [
     "create new booking",
     "createnewbooking",
     "create"
 ];
 
-const cancelBookingCommands = [
+const cancelBookingCommands: string[] = [
     "cancel booking",
     "cancelbooking",
     "cancel"
 ];
 
-const viewHutBookingCommands = [
+const viewHutBookingCommands: string[] = [
     "view hut booking",
     "viewhutbooking",
     "view"
 ];
 
-const searchBookingCommands = [
+const searchBookingCommands: string[] = [
     "search booking",
     "searchbooking",
     "search"
 ];
 
-const configSeasonCommands = [
+const configSeasonCommands: string[] = [
     "config season",
     "configseason",
     "config",
     "season"
+];
+
+const helpCommands = [
+    exitCommands[0],
+    createNewBookingCommands[0],
+    cancelBookingCommands[0],
+    viewHutBookingCommands[0],
+    searchBookingCommands[0],
+    configSeasonCommands[0]
 ];
 
 const rl = readline.createInterface({
@@ -121,7 +130,13 @@ export async function enterCommand() {
         configSeason();
     } else if (exitCommands.includes(command)) {
         rl.close();
-    } else {
+    } else if (command === 'help') {
+        for (const helpCommand of helpCommands) {
+            console.log(dimmedText(String(helpCommand)));
+        }
+        enterCommand();
+    }
+    else {
         enterCommand();
     }
    
