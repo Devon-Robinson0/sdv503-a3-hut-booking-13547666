@@ -163,11 +163,11 @@ async function getArrivalDate() {
             throw new Error("Day must be in the future");
         }
         season = await loadSeason();
-        const seasonStart = formatDate(new Date((new Date()).getFullYear(), season.startMonth - 1, season.startDay));
-        const seasonEnd = formatDate(new Date((new Date()).getFullYear(), season.endMonth - 1, season.endDay));
         arrivalDate = new Date(year, month - 1, day);
+        const startMonth = getMonthName(season.startMonth);
+        const endMonth = getMonthName(season.endMonth);
         if (!(await checkDatesInSeason(arrivalDate))) {
-            throw new Error(`Date must be in season range (${seasonStart} -> ${seasonEnd})`);
+            throw new Error(`Date must be in season range (${startMonth} -> ${endMonth})`);
         }
         console.log("within season");
     }
@@ -206,15 +206,15 @@ async function getNightsOfStay(arrivalDate) {
             throw new Error("Nights of stay must be a number");
         }
         nightsOfStay = Number(nightsOfStayInput);
-        if (nightsOfStay === 0 || nightsOfStay > 30) {
+        if (nightsOfStay < 1 || nightsOfStay > 30) {
             throw new Error("Nights of stay must be between 1-30");
         }
         const endDate = new Date(arrivalDate);
         endDate.setDate(endDate.getDate() + nightsOfStay);
-        const seasonEnd = new Date((new Date()).getFullYear(), season.endMonth - 1, season.endDay);
-        const nightsLeft = getNights(arrivalDate, seasonEnd);
+        const startMonth = getMonthName(season.startMonth);
+        const endMonth = getMonthName(season.endMonth);
         if (!(await checkDatesInSeason(arrivalDate, endDate))) {
-            throw new Error(`Date range must be within season (max nights: ${nightsLeft})`);
+            throw new Error(`Date range must be within season (${startMonth} -> ${endMonth})`);
         }
     }
     catch (err) {
@@ -227,6 +227,51 @@ async function getNightsOfStay(arrivalDate) {
         nightsOfStay = await getNightsOfStay(arrivalDate);
     }
     return nightsOfStay;
+}
+function getMonthName(month) {
+    let monthName = "";
+    switch (month) {
+        case 1:
+            monthName = "Jan";
+            break;
+        case 2:
+            monthName = "Feb";
+            break;
+        case 3:
+            monthName = "Mar";
+            break;
+        case 4:
+            monthName = "Apr";
+            break;
+        case 5:
+            monthName = "May";
+            break;
+        case 6:
+            monthName = "Jun";
+            break;
+        case 7:
+            monthName = "Jul";
+            break;
+        case 8:
+            monthName = "Aug";
+            break;
+        case 9:
+            monthName = "Sep";
+            break;
+        case 10:
+            monthName = "Oct";
+            break;
+        case 11:
+            monthName = "Nov";
+            break;
+        case 12:
+            monthName = "Dec";
+            break;
+        default:
+            monthName = "Not Found";
+            break;
+    }
+    return monthName;
 }
 function getNights(start, end) {
     const msPerDay = 1000 * 60 * 60 * 24;
@@ -279,21 +324,55 @@ async function checkDatesInSeason(start, end) {
     if (end === undefined) {
         end = new Date(start);
     }
-    const year = start.getFullYear();
-    const seasonStartDate = new Date(year, season.startMonth - 1, season.startDay);
-    const seasonEndDate = new Date(year, season.endMonth - 1, season.endDay);
-    console.log(seasonEndDate);
-    console.log(start);
-    if (start.getTime() === seasonEndDate.getTime()) {
-        return false;
-    }
-    // startA >= startB && endA <= endB
-    if (start >= seasonStartDate && end <= seasonEndDate) {
-        return true;
+    const startMonth = Math.min(season.startMonth, season.endMonth);
+    const endMonth = Math.max(season.startMonth, season.endMonth);
+    let inSeason = false;
+    if (season.startMonth > season.endMonth) {
+        inSeason = (start.getMonth() + 1 > startMonth) && (end.getMonth() + 1 < endMonth);
+        return !inSeason;
     }
     else {
-        return false;
+        inSeason = (start.getMonth() + 1 >= startMonth) && (end.getMonth() + 1 <= endMonth);
+        return inSeason;
     }
+    // console.log(start.getMonth());
+    // console.log(end.getMonth());
+    // const inSeason: boolean = (start.getMonth() + 1 >= startMonth) && (end.getMonth() + 1 <= endMonth);
+    // if (season.startMonth > season.endMonth) {
+    //     console.log("season reversed: " + !inSeason);
+    //     return !inSeason;
+    // } else {
+    //     console.log("season: " + inSeason);
+    //     return inSeason;
+    // }
+    // const year: number = start.getFullYear();
+    // const seasonStartDate: Date = new Date(
+    //     year,
+    //     season.startMonth - 1,
+    //     season.startDay
+    // );
+    // let endYear: number = year;
+    // if (season.startMonth > season.endMonth || season.startDay > season.endDay) {
+    //     endYear = year + 1;
+    // }
+    // const seasonEndDate: Date = new Date(
+    //     endYear,
+    //     season.endMonth - 1,
+    //     season.endDay
+    // );
+    // console.log(start);
+    // console.log(end);
+    // console.log(seasonStartDate);
+    // console.log(seasonEndDate);
+    // if (start.getTime() === seasonEndDate.getTime()) {
+    //     return false;
+    // }
+    // // startA >= startB && endA <= endB
+    // if (start >= seasonStartDate && end <= seasonEndDate) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
 }
 // const exitCommands = [
 //     "exit",

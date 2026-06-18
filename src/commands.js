@@ -5,30 +5,37 @@ import { section, topic, dimmedText, blueText, magentaText, errorText, displayMa
 import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
+import { configSeason } from './config-season.js';
 let bookings = [];
 const exitCommands = [
     "exit",
     "quit"
 ];
 const createNewBookingCommands = [
-    "create",
+    "create new booking",
     "createnewbooking",
-    "create new booking"
+    "create"
 ];
 const cancelBookingCommands = [
-    "cancel",
+    "cancel booking",
     "cancelbooking",
-    "cancel booking"
+    "cancel"
 ];
 const viewHutBookingCommands = [
-    "viewhutbooking",
     "view hut booking",
+    "viewhutbooking",
     "view"
 ];
 const searchBookingCommands = [
-    "searchbooking",
     "search booking",
+    "searchbooking",
     "search"
+];
+const configSeasonCommands = [
+    "config season",
+    "configseason",
+    "config",
+    "season"
 ];
 const rl = readline.createInterface({
     input: process.stdin,
@@ -49,6 +56,9 @@ export async function loadSeason() {
     const raw = await fs.readFile("season.json", "utf-8");
     return JSON.parse(raw);
 }
+export async function updateSeason(season) {
+    await fs.writeFile("season.json", JSON.stringify(season, null, 2));
+}
 export async function updateBookings(bookings) {
     await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
 }
@@ -67,6 +77,9 @@ export async function enterCommand() {
     }
     else if (searchBookingCommands.includes(command)) {
         searchBooking();
+    }
+    else if (configSeasonCommands.includes(command)) {
+        configSeason();
     }
     else if (exitCommands.includes(command)) {
         rl.close();

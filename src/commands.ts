@@ -11,6 +11,7 @@ import { section,
 import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
+import { configSeason } from './config-season.js';
 
 export type Hut = {
     hutName: string,
@@ -29,9 +30,7 @@ export type Booking = {
 }
 
 export type Season = {
-    startDay: number,
     startMonth: number,
-    endDay: number,
     endMonth: number
 };
 
@@ -43,27 +42,34 @@ const exitCommands = [
 ]
 
 const createNewBookingCommands = [
-    "create",
+    "create new booking",
     "createnewbooking",
-    "create new booking"
+    "create"
 ];
 
 const cancelBookingCommands = [
-    "cancel",
+    "cancel booking",
     "cancelbooking",
-    "cancel booking"
+    "cancel"
 ];
 
 const viewHutBookingCommands = [
-    "viewhutbooking",
     "view hut booking",
+    "viewhutbooking",
     "view"
 ];
 
 const searchBookingCommands = [
-    "searchbooking",
     "search booking",
+    "searchbooking",
     "search"
+];
+
+const configSeasonCommands = [
+    "config season",
+    "configseason",
+    "config",
+    "season"
 ];
 
 const rl = readline.createInterface({
@@ -90,6 +96,10 @@ export async function loadSeason(): Promise<Season> {
     return JSON.parse(raw);
 }
 
+export async function updateSeason(season: Season) {
+    await fs.writeFile("season.json", JSON.stringify(season, null, 2));
+}
+
 export async function updateBookings(bookings: Booking[]) {
     await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
 }
@@ -107,6 +117,8 @@ export async function enterCommand() {
         viewHutBookings();
     } else if (searchBookingCommands.includes(command)) {
         searchBooking();
+    } else if (configSeasonCommands.includes(command)) {
+        configSeason();
     } else if (exitCommands.includes(command)) {
         rl.close();
     } else {

@@ -1,6 +1,4 @@
 {
-    "startDay": 1,
-    "startMonth": 5,
-    "endDay": 20,
-    "endMonth": 6
+  "startMonth": 1,
+  "endMonth": 12
 }

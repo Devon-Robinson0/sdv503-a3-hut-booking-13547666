@@ -4,8 +4,6 @@ import { blueText, errorText } from './logger.js';
 export async function searchBooking() {
     const name = await getName();
 
-    
-
     const bookings: Booking[] = await loadBookings();
 
     if (name === '') {
@@ -19,7 +17,7 @@ export async function searchBooking() {
         for (const match of matches) {
             displayBooking(match);
         }
-        
+
     }
 
     enterCommand();
