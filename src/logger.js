@@ -11,6 +11,9 @@ export function dimmedText(text) {
 export function magentaText(text) {
     return chalk.bold.magentaBright(text);
 }
+export function yellowText(text) {
+    return chalk.bold.yellowBright(text);
+}
 export function blueText(text) {
     return chalk.bold.blueBright(text);
 }

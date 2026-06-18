@@ -13,6 +13,7 @@ import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
 import { configSeason } from './config-season.js';
 import { summary } from './summary.js';
+import { viewTrack } from './view-track.js';
 
 export type Hut = {
     hutName: string,
@@ -77,11 +78,18 @@ const summaryCommands: string[] = [
     "summary"
 ];
 
+const viewTrackCommands: string[] = [
+    "view track",
+    "viewtrack",
+    "track"
+];
+
 const helpCommands = [
     exitCommands[0],
     createNewBookingCommands[0],
     cancelBookingCommands[0],
     viewHutBookingCommands[0],
+    viewTrackCommands[0],
     searchBookingCommands[0],
     configSeasonCommands[0],
     summaryCommands[0]
@@ -134,6 +142,8 @@ export async function enterCommand() {
         cancelBooking();
     } else if (viewHutBookingCommands.includes(command)) {
         viewHutBookings();
+    } else if (viewTrackCommands.includes(command)) {
+        viewTrack();
     } else if (searchBookingCommands.includes(command)) {
         searchBooking();
     } else if (configSeasonCommands.includes(command)) {
@@ -185,3 +195,7 @@ export function closeRl() {
     rl.close();
 }
 enterCommand();
+
+function viewTracks() {
+    throw new Error('Function not implemented.');
+}

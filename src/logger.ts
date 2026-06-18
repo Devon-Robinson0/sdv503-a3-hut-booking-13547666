@@ -16,6 +16,10 @@ export function magentaText(text: string): string {
     return chalk.bold.magentaBright(text);
 }
 
+export function yellowText(text: string): string {
+    return chalk.bold.yellowBright(text);
+}
+
 export function blueText(text: string): string {
     return chalk.bold.blueBright(text);
 }
