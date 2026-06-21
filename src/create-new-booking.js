@@ -169,7 +169,6 @@ async function getArrivalDate() {
         if (!(await checkDatesInSeason(arrivalDate))) {
             throw new Error(`Date must be in season range (${startMonth} -> ${endMonth})`);
         }
-        console.log("within season");
     }
     catch (err) {
         if (err instanceof Error) {

@@ -14,7 +14,7 @@ export async function summary() {
     const huts: Hut[] = await loadHuts();
     const bookings: Booking[] = await loadBookings();
     for (const hut of huts) {
-        summary += `<b>${hut.hutName}:</b>`;
+        summary += `<h3>${hut.hutName}:</h3>`;
 
         const matches = bookings.filter(b => b.hut === hut.hutName);
 
@@ -25,7 +25,7 @@ export async function summary() {
         matches.forEach(m => {
             const memberText = m.isMember ? 'yes' : 'no';
 
-            summary += "<br><b>=== Booking ===</b><br>";
+            summary += "<b>--- Booking ---</b><br>";
             summary += `<b>${m.bookingId}</b><br>`;
             summary += `<b>Tramper Name:</b> ${m.tramperName}<br>`;
             summary += `<b>Hut:</b> ${m.hut}<br>`;

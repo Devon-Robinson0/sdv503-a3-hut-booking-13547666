@@ -10,14 +10,14 @@ export async function summary() {
     const huts = await loadHuts();
     const bookings = await loadBookings();
     for (const hut of huts) {
-        summary += `<b>${hut.hutName}:</b>`;
+        summary += `<h3>${hut.hutName}:</h3>`;
         const matches = bookings.filter(b => b.hut === hut.hutName);
         if (matches.length === 0) {
             summary += "<br>~No Bookings~<br>";
         }
         matches.forEach(m => {
             const memberText = m.isMember ? 'yes' : 'no';
-            summary += "<br><b>=== Booking ===</b><br>";
+            summary += "<b>--- Booking ---</b><br>";
             summary += `<b>${m.bookingId}</b><br>`;
             summary += `<b>Tramper Name:</b> ${m.tramperName}<br>`;
             summary += `<b>Hut:</b> ${m.hut}<br>`;

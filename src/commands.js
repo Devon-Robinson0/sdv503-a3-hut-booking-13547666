@@ -9,6 +9,8 @@ import { configSeason } from './config-season.js';
 import { summary } from './summary.js';
 import { viewTrack } from './view-track.js';
 let bookings = [];
+const costPerNight = 20;
+const memberCostPerNight = 18;
 const exitCommands = [
     "exit",
     "quit"
@@ -137,11 +139,21 @@ export async function displayBooking(booking) {
     const memberText = booking.isMember ? 'Yes' : "No";
     bookingText += displayMagPair("\nBooking ID: ", booking.bookingId);
     bookingText += displayMagPair("\nTramper Name: ", booking.tramperName);
-    bookingText += displayMagPair("\nHut: ", booking.hut);
+    bookingText += displayMagPair("\nHut: ", booking.hut[0]?.toUpperCase() + booking.hut.slice(1));
     bookingText += displayMagPair("\nArrival Date: ", String(booking.arrivalDate));
     bookingText += displayMagPair("\nNights: ", String(booking.nights));
     bookingText += displayMagPair("\nParty Size: ", String(booking.partySize));
     bookingText += displayMagPair("\nMember: ", memberText);
+    const price = booking.isMember ? memberCostPerNight : costPerNight;
+    const net = booking.nights * price * booking.partySize;
+    const savings = (booking.nights * costPerNight * booking.partySize) -
+        (booking.nights * price * booking.partySize);
+    const GST = net * 0.15;
+    const gross = net + GST;
+    bookingText += displayMagPair("\n\nNet: ", String("$" + net));
+    bookingText += displayMagPair("\nSaving: ", String("$" + savings));
+    bookingText += displayMagPair("\nGST: ", String("$" + GST));
+    bookingText += displayMagPair("\nGross: ", String("$" + gross));
     console.log(bookingText += magentaText('\n---------------'));
 }
 export function closeRl() {

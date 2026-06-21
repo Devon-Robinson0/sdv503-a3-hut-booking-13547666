@@ -25,5 +25,86 @@
     "nights": 10,
     "partySize": 5,
     "isMember": true
+  },
+  {
+    "bookingId": "id_4",
+    "tramperName": "Devon The Goat",
+    "hut": "mintaro",
+    "arrivalDate": "2026-06-17T12:00:00.000Z",
+    "nights": 10,
+    "partySize": 5,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_5",
+    "tramperName": "Sam Wilkinson",
+    "hut": "awaroa",
+    "arrivalDate": "2026-06-19T12:00:00.000Z",
+    "nights": 5,
+    "partySize": 10,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_6",
+    "tramperName": "Doug",
+    "hut": "mintaro",
+    "arrivalDate": "2026-06-19T12:00:00.000Z",
+    "nights": 20,
+    "partySize": 20,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_7",
+    "tramperName": "Doug",
+    "hut": "mintaro",
+    "arrivalDate": "2026-06-19T12:00:00.000Z",
+    "nights": 5,
+    "partySize": 10,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_8",
+    "tramperName": "Minty Mate",
+    "hut": "clinton",
+    "arrivalDate": "2026-08-19T12:00:00.000Z",
+    "nights": 30,
+    "partySize": 2,
+    "isMember": false
+  },
+  {
+    "bookingId": "id_9",
+    "tramperName": "Fibler Digler",
+    "hut": "anchorage",
+    "arrivalDate": "2027-09-19T12:00:00.000Z",
+    "nights": 10,
+    "partySize": 3,
+    "isMember": false
+  },
+  {
+    "bookingId": "id_10",
+    "tramperName": "Henry Benry",
+    "hut": "anchorage",
+    "arrivalDate": "2027-01-01T11:00:00.000Z",
+    "nights": 10,
+    "partySize": 3,
+    "isMember": false
+  },
+  {
+    "bookingId": "id_11",
+    "tramperName": "Henry Benry 2nd",
+    "hut": "awaroa",
+    "arrivalDate": "2026-07-19T12:00:00.000Z",
+    "nights": 10,
+    "partySize": 4,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_12",
+    "tramperName": "Gary Snail",
+    "hut": "awaroa",
+    "arrivalDate": "2026-06-19T12:00:00.000Z",
+    "nights": 4,
+    "partySize": 2,
+    "isMember": true
   }
 ]
