@@ -6,11 +6,12 @@ import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
 import { configSeason } from './config-season.js';
-import { summary } from './summary.js';
+import { generateSummary } from './summary.js';
 import { viewTrack } from './view-track.js';
+import { testFiles } from './test-file.js';
 const costPerNight = 15;
 const memberCostPerNight = 12;
-const exitCommands = [
+export const exitCommands = [
     "exit",
     "quit"
 ];
@@ -49,6 +50,12 @@ const viewTrackCommands = [
     "viewtrack",
     "track"
 ];
+const testFileCommands = [
+    "test file",
+    "testfile",
+    "test",
+    "file"
+];
 const helpCommands = [
     exitCommands[0],
     createNewBookingCommands[0],
@@ -57,7 +64,8 @@ const helpCommands = [
     viewTrackCommands[0],
     searchBookingCommands[0],
     configSeasonCommands[0],
-    summaryCommands[0]
+    summaryCommands[0],
+    testFileCommands[0]
 ];
 const autofillCommands = [
     ...exitCommands,
@@ -67,6 +75,7 @@ const autofillCommands = [
     ...searchBookingCommands,
     ...configSeasonCommands,
     ...summaryCommands,
+    ...testFileCommands,
     "help"
 ];
 const rl = readline.createInterface({
@@ -102,24 +111,6 @@ export async function updateSummary(summary) {
     await fs.writeFile("summary.md", summary);
 }
 export async function enterCommand() {
-    try {
-        await loadBookings();
-    }
-    catch (err) {
-        console.log(errorText("Bookings data file is corrupt, fix before continuing"));
-    }
-    try {
-        await loadHuts();
-    }
-    catch (err) {
-        console.log(errorText("Huts data file is corrupt, fix before continuing"));
-    }
-    try {
-        await loadSeason();
-    }
-    catch (err) {
-        console.log(errorText("Season data file is corrupt, fix before continuing"));
-    }
     const command = (await ask(blueText("Enter a command ('help' to see all commands): ")))
         .trim()
         .toLowerCase();
@@ -142,7 +133,10 @@ export async function enterCommand() {
         configSeason();
     }
     else if (summaryCommands.includes(command)) {
-        summary();
+        generateSummary();
+    }
+    else if (testFileCommands.includes(command)) {
+        testFiles();
     }
     else if (exitCommands.includes(command)) {
         console.log(dimmedText("\n~Exited~\n"));

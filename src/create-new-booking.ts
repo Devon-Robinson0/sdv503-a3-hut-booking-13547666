@@ -1,6 +1,7 @@
 import { ask, 
     displayBooking,
     enterCommand,
+    exitCommands,
     loadBookings,
     loadHuts,
     loadSeason,
@@ -67,9 +68,10 @@ async function getTramperName() {
     let tramperName: string = '';
 
     try {
-        tramperName = await ask(blueText("Enter Tramper Name: "));
+        tramperName = (await ask(blueText("Enter Tramper Name: ")))
+            .trim();
 
-        if (tramperName.trim() === '') {
+        if (tramperName === '') {
             throw new Error("Name cannot be empty");
         }
 
@@ -193,7 +195,8 @@ async function getArrivalDate() {
         capacityTaken = getOverlapCapacity(matchingHutBookings, arrivalDate);
 
         if (currentHut.capacity - capacityTaken === 0) {
-            throw new Error("Hut is fully booked on this date");
+            enterCommand();
+            throw new Error("\n\nHut is fully booked on this date\n");
         }
 
         console.log(dimmedText(`\nCapacity Remaining (${formatDate(arrivalDate)}): ${currentHut.capacity - capacityTaken}\n`));
@@ -259,7 +262,7 @@ async function getNightsOfStay(arrivalDate: Date) {
         if (!(await checkDatesInSeason(arrivalDate, endDate))) {
             throw new Error(`Date range must be within season (${startMonth} -> ${endMonth})`);
         }
-        
+
         // iterate through each night of stay
         // check capacity taken for each
         // get the most capacity taken night and use it
@@ -269,6 +272,7 @@ async function getNightsOfStay(arrivalDate: Date) {
         highestCapacity = 0;
 
         const date: Date = new Date(arrivalDate);
+
         for (let i = 0; i < nightsOfStay; i++) {
             date.setDate(date.getDate() + i);
             const value = getOverlapCapacity(matchingHutBookings, date);

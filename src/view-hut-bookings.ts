@@ -76,11 +76,6 @@ async function getDateRange(): Promise<DateRange> {
 
         const dates: string[] = startDateInput.split('->');
 
-        const currentDate = new Date();
-        const currentDay: number = currentDate.getDate();
-        const currentMonth: number = currentDate.getMonth() + 1;
-        const currentYear: number = currentDate.getFullYear();
-
         for (const date of dates) {
             const segments: Array<string> = date.trim().split('-');
 
@@ -99,14 +94,6 @@ async function getDateRange(): Promise<DateRange> {
             const daysInMonth: number = Number(getDaysInMonth(year, month));
             if (day < 1 || day > daysInMonth) {
                 throw new Error(`Day must be within days of month 1-${daysInMonth}`);
-            }
-
-            if (year < currentYear) {
-                throw new Error("Year must be in the future");
-            } else if (month < currentMonth && year === currentYear) {
-                throw new Error("Month must be in the future");
-            } else if (day < currentDay && month === currentMonth && year === currentYear) {
-                throw new Error("Day must be in the future");
             }
         }
 

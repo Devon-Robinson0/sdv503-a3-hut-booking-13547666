@@ -16,6 +16,7 @@ export type Season = {
     startMonth: number;
     endMonth: number;
 };
+export declare const exitCommands: string[];
 export declare function ask(q: string): Promise<string>;
 export declare function loadHuts(): Promise<Hut[]>;
 export declare function loadBookings(): Promise<Booking[]>;

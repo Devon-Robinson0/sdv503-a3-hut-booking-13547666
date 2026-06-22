@@ -1,4 +1,4 @@
-import { ask, displayBooking, enterCommand, loadBookings, loadHuts, loadSeason, saveNewBooking } from './commands.js';
+import { ask, displayBooking, enterCommand, exitCommands, loadBookings, loadHuts, loadSeason, saveNewBooking } from './commands.js';
 import { dimmedText, blueText, errorText } from './logger.js';
 import { displayHut } from './view-track.js';
 let bookings;
@@ -43,8 +43,9 @@ export async function createNewBooking() {
 async function getTramperName() {
     let tramperName = '';
     try {
-        tramperName = await ask(blueText("Enter Tramper Name: "));
-        if (tramperName.trim() === '') {
+        tramperName = (await ask(blueText("Enter Tramper Name: ")))
+            .trim();
+        if (tramperName === '') {
             throw new Error("Name cannot be empty");
         }
         tramperName = setPascalCaseText(tramperName);
@@ -137,7 +138,8 @@ async function getArrivalDate() {
         let capacityTaken = 0;
         capacityTaken = getOverlapCapacity(matchingHutBookings, arrivalDate);
         if (currentHut.capacity - capacityTaken === 0) {
-            throw new Error("Hut is fully booked on this date");
+            enterCommand();
+            throw new Error("\n\nHut is fully booked on this date\n");
         }
         console.log(dimmedText(`\nCapacity Remaining (${formatDate(arrivalDate)}): ${currentHut.capacity - capacityTaken}\n`));
     }

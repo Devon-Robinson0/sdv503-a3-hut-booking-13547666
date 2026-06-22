@@ -1,7 +1,16 @@
-import { displayBooking, enterCommand, formatDate, getMonthName, loadBookings, loadHuts, loadSeason, updateSummary, type Booking, type Hut, type Season } from "./commands.js";
+import { enterCommand, 
+    formatDate, 
+    getMonthName, 
+    loadBookings, 
+    loadHuts, 
+    loadSeason, 
+    updateSummary, 
+    type Booking, 
+    type Hut, 
+    type Season } from "./commands.js";
 import { dimmedText } from "./logger.js";
 
-export async function summary() {
+export async function generateSummary() {
     let summary: string = "<h1>OCCUPANCY SUMMARY REPORT<br>";
     summary += "========================</h1>";
     summary += `<h3>Date: ${formatDate(new Date())}</h3>`;
