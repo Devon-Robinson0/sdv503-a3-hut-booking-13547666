@@ -34,8 +34,8 @@ export type Season = {
 };
 
 let bookings: Booking[] = [];
-const costPerNight = 20;
-const memberCostPerNight = 18;
+const costPerNight = 15;
+const memberCostPerNight = 12;
 
 const exitCommands: string[] = [
     "exit",
@@ -196,7 +196,7 @@ export async function displayBooking(booking: Booking) {
 
     bookingText += displayMagPair("\n\nNet: ", String("$" + net));
     bookingText += displayMagPair("\nSaving: ",String("$" + savings));
-    bookingText += displayMagPair("\nGST: ", String("$" + GST));
+    bookingText += displayMagPair("\nGST: ", String("$" + GST.toFixed(2)));
     bookingText += displayMagPair("\nGross: ", String("$" + gross));
 
     console.log(bookingText += magentaText('\n---------------'));

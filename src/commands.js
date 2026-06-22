@@ -9,8 +9,8 @@ import { configSeason } from './config-season.js';
 import { summary } from './summary.js';
 import { viewTrack } from './view-track.js';
 let bookings = [];
-const costPerNight = 20;
-const memberCostPerNight = 18;
+const costPerNight = 15;
+const memberCostPerNight = 12;
 const exitCommands = [
     "exit",
     "quit"
@@ -152,7 +152,7 @@ export async function displayBooking(booking) {
     const gross = net + GST;
     bookingText += displayMagPair("\n\nNet: ", String("$" + net));
     bookingText += displayMagPair("\nSaving: ", String("$" + savings));
-    bookingText += displayMagPair("\nGST: ", String("$" + GST));
+    bookingText += displayMagPair("\nGST: ", String("$" + GST.toFixed(2)));
     bookingText += displayMagPair("\nGross: ", String("$" + gross));
     console.log(bookingText += magentaText('\n---------------'));
 }
