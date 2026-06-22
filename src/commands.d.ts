@@ -26,5 +26,7 @@ export declare function updateSummary(summary: string): Promise<void>;
 export declare function enterCommand(): Promise<void>;
 export declare function saveNewBooking(booking: Booking): Promise<void>;
 export declare function displayBooking(booking: Booking): Promise<void>;
+export declare function formatDate(date: Date): string;
+export declare function getMonthName(month: number): string;
 export declare function closeRl(): void;
 //# sourceMappingURL=commands.d.ts.map

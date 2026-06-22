@@ -1,1 +1,1 @@
-{"version":3,"file":"view-track.d.ts","sourceRoot":"","sources":["view-track.ts"],"names":[],"mappings":"AAGA,wBAAsB,SAAS,kBAI9B"}
+{"version":3,"file":"view-track.d.ts","sourceRoot":"","sources":["view-track.ts"],"names":[],"mappings":"AAAA,OAAO,EAA+B,KAAK,GAAG,EAAE,MAAM,eAAe,CAAC;AAGtE,wBAAsB,SAAS,kBAI9B;AAyCD,wBAAgB,UAAU,CAAC,GAAG,EAAE,GAAG,QAQlC"}

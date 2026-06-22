@@ -1,32 +1,5 @@
 [
   {
-    "bookingId": "id_1",
-    "tramperName": "Devon",
-    "hut": "test1",
-    "arrivalDate": "2026-06-18T12:00:00.000Z",
-    "nights": 1,
-    "partySize": 10,
-    "isMember": true
-  },
-  {
-    "bookingId": "id_2",
-    "tramperName": "Hikaru",
-    "hut": "test1",
-    "arrivalDate": "2026-06-18T12:00:00.000Z",
-    "nights": 1,
-    "partySize": 4,
-    "isMember": false
-  },
-  {
-    "bookingId": "id_3",
-    "tramperName": "David",
-    "hut": "test3",
-    "arrivalDate": "2026-06-17T12:00:00.000Z",
-    "nights": 10,
-    "partySize": 5,
-    "isMember": true
-  },
-  {
     "bookingId": "id_4",
     "tramperName": "Devon The Goat",
     "hut": "mintaro",
@@ -105,6 +78,24 @@
     "arrivalDate": "2026-06-19T12:00:00.000Z",
     "nights": 4,
     "partySize": 2,
+    "isMember": true
+  },
+  {
+    "bookingId": "id_13",
+    "tramperName": "Joanne",
+    "hut": "awaroa",
+    "arrivalDate": "2026-06-21T12:00:00.000Z",
+    "nights": 10,
+    "partySize": 10,
+    "isMember": false
+  },
+  {
+    "bookingId": "id_1",
+    "tramperName": "Doug",
+    "hut": "awaroa",
+    "arrivalDate": "2026-06-22T12:00:00.000Z",
+    "nights": 10,
+    "partySize": 4,
     "isMember": true
   }
 ]

@@ -35,7 +35,7 @@ async function getHuts() {
         hut = await getHuts();
     }
 }
-function displayHut(hut) {
+export function displayHut(hut) {
     let display = '';
     display += yellowText("\n=== Hut ===");
     display += yellowText("\nHut Name: ") + dimmedText(hut.hutName);

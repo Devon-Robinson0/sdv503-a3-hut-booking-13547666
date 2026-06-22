@@ -1,7 +1,7 @@
 import readline from 'node:readline';
 import fs from 'fs/promises';
 import { createNewBooking } from './create-new-booking.js';
-import { section, topic, dimmedText, blueText, magentaText, errorText, displayMagPair } from './logger.js';
+import { dimmedText, blueText, magentaText, displayMagPair } from './logger.js';
 import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
@@ -140,7 +140,7 @@ export async function displayBooking(booking) {
     bookingText += displayMagPair("\nBooking ID: ", booking.bookingId);
     bookingText += displayMagPair("\nTramper Name: ", booking.tramperName);
     bookingText += displayMagPair("\nHut: ", booking.hut[0]?.toUpperCase() + booking.hut.slice(1));
-    bookingText += displayMagPair("\nArrival Date: ", String(booking.arrivalDate));
+    bookingText += displayMagPair("\nArrival Date: ", String(formatDate(new Date(booking.arrivalDate))));
     bookingText += displayMagPair("\nNights: ", String(booking.nights));
     bookingText += displayMagPair("\nParty Size: ", String(booking.partySize));
     bookingText += displayMagPair("\nMember: ", memberText);
@@ -155,6 +155,58 @@ export async function displayBooking(booking) {
     bookingText += displayMagPair("\nGST: ", String("$" + GST));
     bookingText += displayMagPair("\nGross: ", String("$" + gross));
     console.log(bookingText += magentaText('\n---------------'));
+}
+export function formatDate(date) {
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const monthName = getMonthName(month);
+    return `${day}-${monthName}-${year}`;
+}
+export function getMonthName(month) {
+    let monthName = "";
+    switch (month) {
+        case 1:
+            monthName = "Jan";
+            break;
+        case 2:
+            monthName = "Feb";
+            break;
+        case 3:
+            monthName = "Mar";
+            break;
+        case 4:
+            monthName = "Apr";
+            break;
+        case 5:
+            monthName = "May";
+            break;
+        case 6:
+            monthName = "Jun";
+            break;
+        case 7:
+            monthName = "Jul";
+            break;
+        case 8:
+            monthName = "Aug";
+            break;
+        case 9:
+            monthName = "Sep";
+            break;
+        case 10:
+            monthName = "Oct";
+            break;
+        case 11:
+            monthName = "Nov";
+            break;
+        case 12:
+            monthName = "Dec";
+            break;
+        default:
+            monthName = "Not Found";
+            break;
+    }
+    return monthName;
 }
 export function closeRl() {
     rl.close();
