@@ -41,7 +41,8 @@ const configSeasonCommands = [
     "season"
 ];
 const summaryCommands = [
-    "summary"
+    "summary",
+    "sum"
 ];
 const viewTrackCommands = [
     "view track",
@@ -58,9 +59,23 @@ const helpCommands = [
     configSeasonCommands[0],
     summaryCommands[0]
 ];
+const autofillCommands = [
+    ...exitCommands,
+    ...createNewBookingCommands,
+    ...cancelBookingCommands,
+    ...viewHutBookingCommands,
+    ...searchBookingCommands,
+    ...configSeasonCommands,
+    ...summaryCommands,
+    "help"
+];
 const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
+    completer: (line) => {
+        const hits = autofillCommands.filter(c => c.startsWith(line));
+        return [hits.length ? hits : autofillCommands, line];
+    }
 });
 export function ask(q) {
     return new Promise(resolve => rl.question(q, resolve));

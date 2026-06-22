@@ -21,8 +21,6 @@ const exitCommands = [
 export async function cancelBooking() {
     const booking = await getBookingById();
 
-
-
     displayBooking(booking)
 
     const confirmation = await getConfirmation();

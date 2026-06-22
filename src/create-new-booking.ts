@@ -12,6 +12,8 @@ import type { Hut, Season } from './commands.js';
 import type { Booking } from './commands.js';
 import { displayHut } from './view-track.js';
 
+let bookings: Booking[];
+let matchingHutBookings: Booking[];
 let currentHut: Hut;
 let season: Season;
 
@@ -21,14 +23,14 @@ const validYesInput = ["yes", "y", "true", "t"];
 const validNoInput = ["no", "n", "false", "f"];
 
 export async function createNewBooking() {
+    bookings = await loadBookings();
+
     const tramperName: string = await getTramperName();
     const hut: string = await getHut();
     const arrivalDate: Date = await getArrivalDate();
     const nights: number = await getNightsOfStay(arrivalDate);
     const partySize: number = await getPartySize(arrivalDate, nights);
     const isMember: boolean = Boolean(await getIsMember());
-
-    const bookings: Booking[] = await loadBookings();
 
     const ids = bookings.map(b => Number(b.bookingId.slice(3))).sort((a, b) => a - b);
 
@@ -110,6 +112,7 @@ async function getHut() {
         }
 
         currentHut = matchingHut;
+        matchingHutBookings = bookings.filter(b => b.hut === matchingHut.hutName);
 
         hut = matchingHut.hutName;
 
@@ -126,61 +129,6 @@ async function getHut() {
     }
 
     return hut;
-}
-
-async function getPartySize(arrivalDate: Date, nightsOfStay: number) {
-    let partySize: number = 0;
-
-    // startA < endB AND startB < endA
-
-    try {
-        const partySizeInput = await ask(blueText("Enter Party Size: "));
-        partySize = Number(partySizeInput.trim());
-
-        if (Number.isNaN(partySize)) {
-            throw new Error("Party Size is Not a Number");
-        } else if (Number(partySize) <= 0) {
-            throw new Error("Number must be greater than zero");
-        } else if(!Number.isInteger(partySize)) {
-            throw new Error("Number must be a whole number");
-        }
-
-        if (partySize > (currentHut.capacity - highestCapacity)) {
-            throw new Error(`Party size exceeds hut capacity for some nights of stay, capacity free: ${currentHut.capacity - highestCapacity }`);
-        }
-
-    } catch(err) {
-        if (err instanceof Error) {
-            console.log(errorText(err.message));
-        } else {
-            console.log(err);
-        }
-
-        partySize = await getPartySize(arrivalDate, nightsOfStay);
-    }
-
-    return partySize;
-}
-
-function getOverlapCapacity(bookings: Booking[], arrivalDate: Date) {
-    let capacityTaken: number = 0;
-
-    const endA = new Date(arrivalDate);
-    endA.setDate(endA.getDate() + 1);
-
-    for (const booking of bookings) {
-        const startB = new Date(booking.arrivalDate);
-
-        const endB = new Date(startB);
-        endB.setDate(endB.getDate() + booking.nights);
-
-        if (arrivalDate < endB && startB < endA) {
-            // Overlapping dates add to capacityTaken
-            capacityTaken += booking.partySize;
-        }
-    }
-
-    return capacityTaken;
 }
 
 async function getArrivalDate() {
@@ -240,11 +188,7 @@ async function getArrivalDate() {
             throw new Error(`Date must be in season range (${startMonth} -> ${endMonth})`);
         } 
 
-        const bookings: Array<Booking> = await loadBookings();
-
         let capacityTaken: number = 0;
-
-        const matchingHutBookings: Booking[] = bookings.filter(b => b.hut === currentHut.hutName);
 
         capacityTaken = getOverlapCapacity(matchingHutBookings, arrivalDate);
 
@@ -315,8 +259,7 @@ async function getNightsOfStay(arrivalDate: Date) {
         if (!(await checkDatesInSeason(arrivalDate, endDate))) {
             throw new Error(`Date range must be within season (${startMonth} -> ${endMonth})`);
         }
-
-
+        
         // iterate through each night of stay
         // check capacity taken for each
         // get the most capacity taken night and use it
@@ -348,6 +291,61 @@ async function getNightsOfStay(arrivalDate: Date) {
     }
 
     return nightsOfStay;
+}
+
+async function getPartySize(arrivalDate: Date, nightsOfStay: number) {
+    let partySize: number = 0;
+
+    // startA < endB AND startB < endA
+
+    try {
+        const partySizeInput = await ask(blueText("Enter Party Size: "));
+        partySize = Number(partySizeInput.trim());
+
+        if (Number.isNaN(partySize)) {
+            throw new Error("Party Size is Not a Number");
+        } else if (Number(partySize) <= 0) {
+            throw new Error("Number must be greater than zero");
+        } else if(!Number.isInteger(partySize)) {
+            throw new Error("Number must be a whole number");
+        }
+
+        if (partySize > (currentHut.capacity - highestCapacity)) {
+            throw new Error(`Party size exceeds hut capacity for some nights of stay, capacity free: ${currentHut.capacity - highestCapacity }`);
+        }
+
+    } catch(err) {
+        if (err instanceof Error) {
+            console.log(errorText(err.message));
+        } else {
+            console.log(err);
+        }
+
+        partySize = await getPartySize(arrivalDate, nightsOfStay);
+    }
+
+    return partySize;
+}
+
+function getOverlapCapacity(bookings: Booking[], arrivalDate: Date) {
+    let capacityTaken: number = 0;
+
+    const endA = new Date(arrivalDate);
+    endA.setDate(endA.getDate() + 1);
+
+    for (const booking of bookings) {
+        const startB = new Date(booking.arrivalDate);
+
+        const endB = new Date(startB);
+        endB.setDate(endB.getDate() + booking.nights);
+
+        if (arrivalDate < endB && startB < endA) {
+            // Overlapping dates add to capacityTaken
+            capacityTaken += booking.partySize;
+        }
+    }
+
+    return capacityTaken;
 }
 
 function getMonthName(month: number) {
@@ -396,14 +394,6 @@ function getMonthName(month: number) {
     }
 
     return monthName;
-}
-
-function getNights(start: Date, end: Date): number {
-    const msPerDay = 1000 * 60 * 60 * 24;
-
-    const diffMs = end.getTime() - start.getTime();
-
-    return Math.round(diffMs / msPerDay);
 }
 
 async function getIsMember(): Promise<boolean> {
