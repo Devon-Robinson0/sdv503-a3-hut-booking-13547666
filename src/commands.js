@@ -90,25 +90,25 @@ export function ask(q) {
     return new Promise(resolve => rl.question(q, resolve));
 }
 export async function loadHuts() {
-    const raw = await fs.readFile("huts.json", "utf-8");
+    const raw = await fs.readFile("./src/huts.json", "utf-8");
     return JSON.parse(raw);
 }
 export async function loadBookings() {
-    const raw = await fs.readFile("bookings.json", "utf-8");
+    const raw = await fs.readFile("./src/bookings.json", "utf-8");
     return JSON.parse(raw);
 }
 export async function loadSeason() {
-    const raw = await fs.readFile("season.json", "utf-8");
+    const raw = await fs.readFile("./src/season.json", "utf-8");
     return JSON.parse(raw);
 }
 export async function updateSeason(season) {
-    await fs.writeFile("season.json", JSON.stringify(season, null, 2));
+    await fs.writeFile("./src/season.json", JSON.stringify(season, null, 2));
 }
 export async function updateBookings(bookings) {
-    await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
+    await fs.writeFile("./src/bookings.json", JSON.stringify(bookings, null, 2));
 }
 export async function updateSummary(summary) {
-    await fs.writeFile("summary.md", summary);
+    await fs.writeFile("./summary.md", summary);
 }
 export async function enterCommand() {
     const command = (await ask(blueText("Enter a command ('help' to see all commands): ")))

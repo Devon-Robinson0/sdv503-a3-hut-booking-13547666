@@ -131,30 +131,30 @@ export function ask(q: string): Promise<string> {
 }
 
 export async function loadHuts(): Promise<Hut[]> {
-    const raw = await fs.readFile("huts.json", "utf-8");
+    const raw = await fs.readFile("./src/huts.json", "utf-8");
     return JSON.parse(raw);
 }
 
 export async function loadBookings(): Promise<Booking[]> {
-    const raw = await fs.readFile("bookings.json", "utf-8");
+    const raw = await fs.readFile("./src/bookings.json", "utf-8");
     return JSON.parse(raw);
 }
 
 export async function loadSeason(): Promise<Season> {
-    const raw = await fs.readFile("season.json", "utf-8");
+    const raw = await fs.readFile("./src/season.json", "utf-8");
     return JSON.parse(raw);
 }
 
 export async function updateSeason(season: Season) {
-    await fs.writeFile("season.json", JSON.stringify(season, null, 2));
+    await fs.writeFile("./src/season.json", JSON.stringify(season, null, 2));
 }
 
 export async function updateBookings(bookings: Booking[]) {
-    await fs.writeFile("bookings.json", JSON.stringify(bookings, null, 2));
+    await fs.writeFile("./src/bookings.json", JSON.stringify(bookings, null, 2));
 }
 
 export async function updateSummary(summary: string) {
-    await fs.writeFile("summary.md", summary);
+    await fs.writeFile("./summary.md", summary);
 }
 
 export async function enterCommand() {
