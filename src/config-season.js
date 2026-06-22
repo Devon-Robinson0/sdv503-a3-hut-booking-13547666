@@ -32,7 +32,7 @@ async function getNewSeason() {
         const segments = seasonInput.split('->');
         season.startMonth = months.findIndex(m => m === segments[0]?.trim()) + 1;
         season.endMonth = months.findIndex(m => m === segments[1]?.trim()) + 1;
-        if (season.startMonth === -1 || season.endMonth === -1) {
+        if (season.startMonth === 0 || season.endMonth === 0) {
             throw new Error("Month was not found");
         }
     }
