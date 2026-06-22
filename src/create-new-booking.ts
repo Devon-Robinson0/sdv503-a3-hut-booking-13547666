@@ -436,6 +436,7 @@ async function confirmBooking(booking: Booking) {
 
     if (validYesInput.includes(confirmed.trim().toLowerCase())) {
         saveNewBooking(booking);
+        console.log(dimmedText("\n~Booking Saved~\n"));
     } else if (validNoInput.includes(confirmed.trim().toLowerCase())) {
         console.log(dimmedText("\n~Booking not saved~\n"));
     } else {

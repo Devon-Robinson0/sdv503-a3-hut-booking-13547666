@@ -340,6 +340,7 @@ async function confirmBooking(booking) {
     const confirmed = await ask(blueText("Confirm Booking (y/n): "));
     if (validYesInput.includes(confirmed.trim().toLowerCase())) {
         saveNewBooking(booking);
+        console.log(dimmedText("\n~Booking Saved~\n"));
     }
     else if (validNoInput.includes(confirmed.trim().toLowerCase())) {
         console.log(dimmedText("\n~Booking not saved~\n"));
