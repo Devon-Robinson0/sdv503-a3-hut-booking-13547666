@@ -4,7 +4,8 @@ import { createNewBooking } from './create-new-booking.js';
 import { dimmedText, 
     blueText, 
     magentaText, 
-    displayMagPair } from './logger.js';
+    displayMagPair, 
+    errorText} from './logger.js';
 import { cancelBooking } from './cancel-booking.js';
 import { viewHutBookings } from './view-hut-bookings.js';
 import { searchBooking } from './search-booking.js';
@@ -33,7 +34,6 @@ export type Season = {
     endMonth: number
 };
 
-let bookings: Booking[] = [];
 const costPerNight = 15;
 const memberCostPerNight = 12;
 
@@ -131,6 +131,22 @@ export async function updateSummary(summary: string) {
 }
 
 export async function enterCommand() {
+    try {
+        await loadBookings();
+    } catch(err) {
+        console.log(errorText("Bookings data file is corrupt, fix before continuing"));
+    }
+    try {
+        await loadHuts();
+    } catch(err) {
+        console.log(errorText("Huts data file is corrupt, fix before continuing"));
+    }
+    try {
+        await loadSeason();
+    } catch(err) {
+        console.log(errorText("Season data file is corrupt, fix before continuing"));
+    }
+
     const command: string = (await ask(blueText("Enter a command ('help' to see all commands): ")))
         .trim()
         .toLowerCase();
@@ -263,8 +279,5 @@ export function getMonthName(month: number): string {
 export function closeRl() {
     rl.close();
 }
-enterCommand();
 
-function viewTracks() {
-    throw new Error('Function not implemented.');
-}
+enterCommand();

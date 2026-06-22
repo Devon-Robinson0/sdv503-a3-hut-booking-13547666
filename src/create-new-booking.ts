@@ -139,8 +139,10 @@ async function getPartySize(arrivalDate: Date, nightsOfStay: number) {
 
         if (Number.isNaN(partySize)) {
             throw new Error("Party Size is Not a Number");
-        } else if (Number(partySize) === 0) {
+        } else if (Number(partySize) <= 0) {
             throw new Error("Number must be greater than zero");
+        } else if(!Number.isInteger(partySize)) {
+            throw new Error("Number must be a whole number");
         }
 
         if (partySize > (currentHut.capacity - highestCapacity)) {
@@ -300,6 +302,8 @@ async function getNightsOfStay(arrivalDate: Date) {
         nightsOfStay = Number(nightsOfStayInput);
         if (nightsOfStay < 1 || nightsOfStay > 30) {
             throw new Error("Nights of stay must be between 1-30");
+        } else if(!Number.isInteger(nightsOfStay)) {
+            throw new Error("Number must be a whole number");
         }
 
         const endDate = new Date(arrivalDate);

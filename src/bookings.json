@@ -97,5 +97,23 @@
     "nights": 10,
     "partySize": 4,
     "isMember": true
+  },
+  {
+    "bookingId": "id_2",
+    "tramperName": "test1",
+    "hut": "dumpling",
+    "arrivalDate": "2026-06-24T12:00:00.000Z",
+    "nights": 3,
+    "partySize": 20,
+    "isMember": false
+  },
+  {
+    "bookingId": "id_3",
+    "tramperName": "test1",
+    "hut": "dumpling",
+    "arrivalDate": "2026-06-24T12:00:00.000Z",
+    "nights": 5,
+    "partySize": 10,
+    "isMember": false
   }
 ]
