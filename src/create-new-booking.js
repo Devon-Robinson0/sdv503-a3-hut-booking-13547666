@@ -1,4 +1,4 @@
-import { ask, displayBooking, enterCommand, exitCommands, loadBookings, loadHuts, loadSeason, saveNewBooking } from './commands.js';
+import { ask, displayBooking, enterCommand, loadBookings, loadHuts, loadSeason, saveNewBooking } from './commands.js';
 import { dimmedText, blueText, errorText } from './logger.js';
 import { displayHut } from './view-track.js';
 let bookings;

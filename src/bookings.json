@@ -1,7 +1,7 @@
 [
   {
     "bookingId": "id_4",
-    "tramperName": "Devon The Goat",
+    "tramperName": "Devon Robinson",
     "hut": "mintaro",
     "arrivalDate": "2026-06-17T12:00:00.000Z",
     "nights": 10,
@@ -46,7 +46,7 @@
   },
   {
     "bookingId": "id_9",
-    "tramperName": "Fibler Digler",
+    "tramperName": "Fibler Kibble",
     "hut": "anchorage",
     "arrivalDate": "2027-09-19T12:00:00.000Z",
     "nights": 10,

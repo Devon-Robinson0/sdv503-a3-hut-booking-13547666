@@ -1,7 +1,8 @@
 # sdv503-a3-hut-booking-13547666
 
 ## How To Run
-- use "npm run manager" to run the hut manager
+- use "cd src" to enter source file which will allow you to run the hut manager
+- use "node commands.js" to run the hut manager
 - you will be opened into an enter command line
 
 ## Valid Commands (from "Enter a Command" page)

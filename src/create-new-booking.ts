@@ -1,7 +1,6 @@
 import { ask, 
     displayBooking,
     enterCommand,
-    exitCommands,
     loadBookings,
     loadHuts,
     loadSeason,
